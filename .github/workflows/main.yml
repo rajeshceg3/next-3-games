@@ -1,0 +1,42 @@
+name: Chrome Extension CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Or a recent LTS version
+
+    - name: Install ESLint and Stylelint
+      run: npm install eslint stylelint stylelint-config-standard --save-dev
+
+    - name: Lint JavaScript
+      run: npx eslint . --ext .js --ignore-path .gitignore # Assuming you might add a .gitignore
+      # If no .gitignore, use: npx eslint . --ext .js
+
+    - name: Lint CSS
+      run: npx stylelint "**/*.css" --config .stylelintrc.json
+
+    - name: Package extension
+      run: |
+        mkdir -p package
+        zip -r package/manutd_fixtures_extension.zip manifest.json popup.html popup.js style.css icons/ PRD.md README.md
+        # Note: Including PRD.md and README.md in the zip for completeness, though not strictly needed for the extension to run.
+
+    - name: Upload packaged extension
+      uses: actions/upload-artifact@v3
+      with:
+        name: manchester-united-fixtures-extension
+        path: package/manutd_fixtures_extension.zip

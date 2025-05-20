@@ -1,0 +1,57 @@
+/* Basic styling for the popup */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 300px; /* Standard width for browser action popups */
+  margin: 0; /* Remove default margin */
+  padding: 10px;
+  background-color: #f9f9f9; /* Light background for the body */
+  color: #333;
+  font-size: 14px; /* Base font size */
+  line-height: 1.5; /* Improve readability */
+}
+
+#fixtures-container {
+  text-align: left; /* Align fixture items to the left */
+}
+
+.fixture-item {
+  background-color: #ffffff; /* White background for each item */
+  border: 1px solid #eee; /* Softer border */
+  padding: 15px; /* Increased padding */
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+.fixture-item h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.15em; /* Slightly larger font for event name */
+  color: #c70101; /* Manchester United Red */
+  font-weight: 600; /* Bolder font for emphasis */
+}
+
+.fixture-item p {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 0.9em; /* Smaller font for details */
+  color: #555; /* Softer color for details */
+}
+
+/* Styling for error messages */
+.error-message {
+  color: #D8000C; /* Error message text color (dark red) */
+  background-color: #FFD2D2; /* Light red background for error box */
+  border: 1px solid #D8000C; /* Border matching text color */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center; /* Center the error text */
+  font-size: 0.95em;
+}
+
+/* Remove generic styling for p tags if they were used for errors before */
+/* #fixtures-container p { (This was the old error styling, replaced by .error-message)
+    color: #d32f2f; 
+    font-weight: bold;
+} */
