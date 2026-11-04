@@ -39,3 +39,7 @@ Fixture data is sourced from [TheSportsDB.com](https://www.thesportsdb.com/) API
 ## Placeholder Notice
 
 The current icons are placeholders. Future versions will include official or thematically appropriate icons. The repository URL will be added once available.
+
+## Verification and limits
+
+This repository's actual default branch is `manutd-fixtures-extension`. The purpose-fit proof is documented in [.cursor/skills/verify-fixtures-popup/SKILL.md](.cursor/skills/verify-fixtures-popup/SKILL.md). It installs the real MV3 extension in a fresh browser and checks the popup against controlled provider success/failure responses. It does not certify current fixture accuracy, live provider availability, toolbar-click behavior or true15second popup dismissal. Provider text is rendered literally, not interpreted as HTML. The inherited main-only CI workflow has not been verified as green.

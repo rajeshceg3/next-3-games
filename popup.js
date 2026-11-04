@@ -8,12 +8,13 @@ const fixturesContainer = document.getElementById('fixtures-container');
 async function fetchNextGames(teamId, apiKey) {
   const url = `https://www.thesportsdb.com/api/v1/json/${apiKey}/eventsnext.php?id=${teamId}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return data.events; // The API returns events under the "events" key
+    if (data.events !== null && (!Array.isArray(data.events) || data.events.some(event => !event || typeof event !== 'object'))) throw new Error('Invalid fixture response');
+    return data.events || []; // The API returns events under the "events" key
   } catch (error) {
     console.error("Error fetching next games:", error);
     displayError("Could not fetch game data. Please check your connection or try again later.");
@@ -51,11 +52,11 @@ function displayGames(gamesData) {
     }
 
 
-    gameElement.innerHTML = `
-      <h3>${eventName}</h3>
-      <p>${league}</p>
-      <p>${eventDate} at ${eventTime}</p>
-    `;
+    for (const [tag, text] of [["h3", eventName], ["p", league], ["p", `${eventDate} at ${eventTime}`]]) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      gameElement.appendChild(element);
+    }
     fixturesContainer.appendChild(gameElement);
   });
 }
@@ -65,7 +66,12 @@ function displayError(message) {
     console.error("Fixtures container not found, cannot display error:", message);
     return;
   }
-  fixturesContainer.innerHTML = `<p>${message}</p>`;
+  fixturesContainer.replaceChildren();
+  const error = document.createElement("p");
+  error.className = "error-message";
+  error.setAttribute("role", "status");
+  error.textContent = message;
+  fixturesContainer.appendChild(error);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
